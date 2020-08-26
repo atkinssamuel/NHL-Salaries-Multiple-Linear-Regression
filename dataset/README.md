@@ -1,11 +1,11 @@
-### Dataset Exploration
+# Dataset Exploration
 The dataset used for this analysis can be found on Kaggle: https://www.kaggle.com/camnugent/predict-nhl-player-salaries. This dataset includes information regarding 874 NHL hockey players during the 2016-2017 regular season.
-#### Raw Dataset Form
+## Raw Dataset Form
 The dataset comes split up into three files: train.csv, test.csv, and test_salaries.csv. The owner of the dataset performed a machine learning analysis of the data which is why the dataset was initially split up like this. Our analysis is linear in nature. Therefore, we do not need a training and testing set. 
 
 The first step of this project was to take the training, testing, and testing inference data and concatenate it. This was accomplished in the ```data_parse.py``` file and the concatenated dataset was stored in the ```dataset/concatenated``` folder as .npy save objects.
 
-#### High-Level Dataset Analysis
+## High-Level Dataset Analysis
 The dataset has a total of 154 columns and 874 entries. Given the tremendous amount of columns, only apparently important columns were selected for this analysis. Furthermore, many of the columns of the raw data are duplicates. These duplicates were removed. 
 
 Prior to conducting an analysis of possible linear relationships that may exist in the dataset, it is important to investigate what each column means in the context of a player's value As such, the meaning of each selected column is illustrated by the table below:
@@ -67,5 +67,5 @@ Prior to conducting an analysis of possible linear relationships that may exist 
 
 These columns were chosen because they were hypothesized to have some impact on each player's salary. 
 
-#### Further Parsing
+## Further Parsing
 Given that a rookie player's entry level contract is significantly lower than other players' contracts regardless of their seasonal performance, it may be wise to remove rookies from the analysis. Furthermore, defense-men, wingers, and center-men will all be compensated differently for their statistical performance. It is not expected of a super-star center-man to block hundreds of shots each year. Moreover, an elite defense-man may only tally a handful of points. These differences must be taken into account during the analysis. 
