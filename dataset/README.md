@@ -35,7 +35,7 @@ Prior to conducting an analysis of possible linear relationships that may exist 
 | A2 |  Second Assists | Assists in which the player was the second last person to touch the puck before the goal scorer  |
 | PTS | Points | - |
 | +/- |  Plus/Minus | The number of even strength goals for that the player was on the ice for minus the number of even strength goals against |
-| PIM | Penalty Minutes | - |
+| PIM | Penalties in Minutes | - |
 | Shifts | - | The number of shifts that the player was on for during the entire season |
 | TOI | Time On Ice | - |
 | TOI/GP | Time On Ice/Games Played | - |
