@@ -24,7 +24,7 @@ A center-man generates value for his team by primarily generating scoring opport
  ![](images/face-off.jpg)
 
 ### Linear Correlation Hypotheses: Wingers
-We expect a winger's salary to depend on the same elements that a center-man's salary depends on with one major exception: face-offs. Given that wingers rarely take face-offs, their value likely is not dependent on the number of face-offs that they win or lose. 
+We expect a winger's salary to depend on the same elements that a center-man's salary depends on with one major exception: face-offs. Given that wingers rarely take face-offs, their value likely is not dependent on the number of face-offs that they win or lose. Furthermore, the number of goals that wingers score on average is different than the number of goals center-men score. This will impact the weight value attached to the number of goals a player scores. 
 
 ![](images/one-timer.jpg)
 
