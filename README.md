@@ -32,12 +32,12 @@ Unlike the forwards, a defense-man's value depends much more on his defensive co
 
 ----------------------
 
-## Data Analysis
+## Checking for Linear Relationships
 Center-men, wingers, and defensemen were all considered individually. Scatter plots between each potential independent variable and salary were created for each positional dataset. Clear linear relationships were noted. Furthermore, the r-value (Pearson product-moment correlation) and the p-value was also computed for each independent-dependent variable pair. 
 
 The Pearson product-moment correlation is the ratio of the covariance of a set of data pairs and the product of the two standard deviations of those data pairs. The covariance of two random variables, x and y, is as follows:
 
-![](images/equations/covariance.png
+![](images/equations/covariance.png)
 
 The standard deviation of a random variable x, is:
 
@@ -49,7 +49,7 @@ Therefore, the product of the standard deviations of two random variables, x and
 
 The ratio, then, of the covariance of a set of data pairs and the product of their standard deviations is:
 
-![](images/equations/r-value.png))
+![](images/equations/r-value.png)
 
 An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. Variable pairs that possessed an r-value less than -0.6 or greater than 0.6 were considered. 
  
@@ -63,5 +63,49 @@ After determining which variables are correlated with the dependent variable, sa
 
 After determining which variables are linearly correlated with the output variable, we can conduct our multi-linear regression analysis. 
 
+## MLR Analysis
+Since we are assuming that the dependent variable is linearly correlated with the dependent variables, the equation that describes the relationship between the salary, y, and the data features, x<sub>1</sub> to x<sub>k</sub> is:
 
+![](images/equations/least-squares-eqn.png)
+
+The epsilon in the above is the residual of the regression equation and the beta values
+
+![](images/equations/beta.png)
+
+are the ideal weights. Since we do not know the ideal weights, we must formulate an estimate based on our observations (data). An individual observation, y<sub>i</sub>, can be written as follows:
+
+![](images/equations/y-i.png)
+
+If we have a total of n observations we can express the n equations associated with the n observations in matrix form:
+
+![](images/equations/matrix-form-eqn.png)
+
+If we assign the following variables:
+
+![](images/equations/capital_y.png)
+![](images/equations/capital_x.png)
+![](images/equations/capital_beta.png)
+![](images/equations/capital-epsilon.png)
+
+Our equation in matrix form becomes:
+
+![](images/equations/y-x-b-e.png)
+
+Rearranging for the residual (error):
+
+![](images/equations/epsilon-equation.png)
+
+We wish to minimize the least squared error. To do this, we will first express the least squared error in simple terms:
+
+![](images/equations/MLR-deriv-1.png)
+
+Then, we will take the derivative of the least squared error:
+
+![](images/equations/MLR-deriv-2.png)
+
+And finally, to minimize the least squared error, we will set the derivative to equal 0:
+
+![](images/equations/MLR-deriv-3.png)
+
+As shown above, we now have an estimate for the ideal weights.
 
