@@ -4,10 +4,10 @@ This repository includes a multiple linear regression analysis of the salaries o
 ## Features
 The features that remained after removing duplicate columns and columns that did not have an apparent impact on each player's salary are as follows:
 
-*NOTE: These are not the raw abbreviated versions of these features.*
+*NOTE: These are not the raw abbreviated versions of these features. Columns that had a tremendous amount of faulty or empty cells were also removed (DrftYr, DrftRd, Ovrl).*
 
 
-```Salary, Born, City, Province/State, Country, Nationality, Height, Weight, Draft Year, Draft Round, Overall, Handedness, Last Name, First Name, Position, Team, Games Played, Goals, Assists, First Assists, Second Assists, Points, +/-, PIM, Shifts, TOI, TOI/GP, TOI%, Blocked Shots, Face-offs Won, Face-offs Lost, Face-off Percentage, Overtime Goals, Game-Winning Goals, Backhand Goals, Deflection Goals, Slap-Shot Goals, Snapshot Goals, Tip Goals, Wrap Around Goals, Crossbars Hit, Posts Hit, Shots Over the Net, Shots Wide of the Net, Backhand Shots, Deflected Shots, Slap-Shots, Snapshots, Tipped Shots, Wrap-Around Shots, Wrist-Shots```
+```Salary, Born, City, Province/State, Country, Nationality, Height, Weight, Handedness, Last Name, First Name, Position, Team, Games Played, Goals, Assists, First Assists, Second Assists, Points, +/-, PIM, Shifts, TOI, TOI/GP, TOI%, Blocked Shots, Face-offs Won, Face-offs Lost, Face-off Percentage, Overtime Goals, Game-Winning Goals, Backhand Goals, Deflection Goals, Slap-Shot Goals, Snapshot Goals, Tip Goals, Wrap Around Goals, Crossbars Hit, Posts Hit, Shots Over the Net, Shots Wide of the Net, Backhand Shots, Deflected Shots, Slap-Shots, Snapshots, Tipped Shots, Wrap-Around Shots, Wrist-Shots```
 
 
 Prior to hypothesizing which features may be linearly correlated with salary, we must first segregate players according to their position. This must be done because center-men, wingers, and defense-men are all compensated uniquely. 
@@ -26,7 +26,7 @@ We expect a winger's salary to depend on the same elements that a center-man's s
 
 ![](images/one-timer.jpg)
 
-Unlike the forwards, a defense-man's value depends much more on his defensive contributions. Although some of a defense-man's value may depend on his offensive contributions, the weighting of this value is undoubtedly different. As such, a separate analysis must be conducted for defense-man. 
+Unlike the forwards, a defense-man's value depends much more on his defensive contributions. Although some of a defense-man's value may depend on his offensive contributions, the weighting of this value is undoubtedly different. As such, a separate analysis must be conducted for defense-man. Note that the TOIX and TOI% features had to be ignored for defense-men because of the staggering amount of empty cells.
 
 ![](images/blocked-shot.jpg)
 

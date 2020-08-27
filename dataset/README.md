@@ -65,7 +65,7 @@ Prior to conducting an analysis of possible linear relationships that may exist 
 | S.Wrap | Wrap-Around Shots | - |
 | S.Wrst | Wrist-Shots | - |
 
-These columns were chosen because they were hypothesized to have some impact on each player's salary. 
+These columns were chosen because they were hypothesized to have some impact on each player's salary. Unfortunately, some of these columns had a tremendous amount of faulty or empty cells. Instead of removing these data entries, the following columns were excluded due to their lack of completeness: ```DrftYr, DrftRd, Ovrl```
 
 ## Further Parsing
-Given that a rookie player's entry level contract is significantly lower than other players' contracts regardless of their seasonal performance, it may be wise to remove rookies from the analysis. Furthermore, defense-men, wingers, and center-men will all be compensated differently for their statistical performance. It is not expected of a super-star center-man to block hundreds of shots each year. Moreover, an elite defense-man may only tally a handful of points. These differences must be taken into account during the analysis. 
+Given that a rookie player's entry level contract is significantly lower than other players' contracts regardless of their seasonal performance, the rookies were removed from the dataset. Furthermore, defense-men, wingers, and center-men will all be compensated differently for their statistical performance. It is not expected of a super-star center-man to block hundreds of shots each year. Moreover, an elite defense-man may only tally a handful of points. These differences must be taken into account during the analysis. 
