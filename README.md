@@ -107,5 +107,7 @@ And finally, to minimize the least squared error, we will set the derivative to 
 
 ![](images/equations/MLR-deriv-3.png)
 
-As shown above, we now have an estimate for the ideal weights.
+As shown above, we now have an estimate for the ideal weights in the context of multi-linear regression. We can use this estimate to create a model that accurately describes the relationship between the independent variables and the dependent output variable. 
+
+
 
