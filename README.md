@@ -35,7 +35,33 @@ Unlike the forwards, a defense-man's value depends much more on his defensive co
 ## Data Analysis
 Center-men, wingers, and defensemen were all considered individually. Scatter plots between each potential independent variable and salary were created for each positional dataset. Clear linear relationships were noted. Furthermore, the r-value (Pearson product-moment correlation) and the p-value was also computed for each independent-dependent variable pair. 
 
-The Pearson product-moment correlation is the ratio of the covariance of a set of data pairs and the product of the two standard deviations of those data pairs. An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. Variable pairs that possessed an r-value less than -0.6 or greater than 0.6 were considered. 
+The Pearson product-moment correlation is the ratio of the covariance of a set of data pairs and the product of the two standard deviations of those data pairs. The covariance of two random variables, x and y, is as follows:
+
+![](images/equations/covariance.png
+
+The standard deviation of a random variable x, is:
+
+![](images/equations/standard-deviation.png)
+
+Therefore, the product of the standard deviations of two random variables, x and y, is:
+
+![](images/equations/std-deviation-product.png)
+
+The ratio, then, of the covariance of a set of data pairs and the product of their standard deviations is:
+
+![](images/equations/r-value.png))
+
+An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. Variable pairs that possessed an r-value less than -0.6 or greater than 0.6 were considered. 
  
-The p-value was also computed for each feature. The p-value is the probability that we would have observed the data given that the null hypothesis is true. In this context the null hypothesis is that the data is not linearly correlated. Therefore, the p-value in this context is the probability that we would have observed the data if the correlation coefficients were zero (the data is not linearly correlated).
+The p-value was also computed for each feature. The p-value is the probability that we would have observed the data given that the null hypothesis is true. In this context the null hypothesis is that the data is not linearly correlated. Therefore, the p-value in this context is the probability that we would have observed the data if the correlation coefficients were zero (the data is not linearly correlated). The p-value is determined by first finding the t-value. 
+
+![](images/equations/t-value.png)
+
+This value allows us to observe the 2-tailed p-value by consulting a t-distribution table.
+
+After determining which variables are correlated with the dependent variable, salary, we must then check for multi-collinearity. Multi-collinearity occurs when two independent variables are linearly correlated. When this occurs, the two variables are redundant and one of them should be excluded. We will determine if two independent variables are correlated using the same techniques we used for the dependent-independent data pairs. 
+
+After determining which variables are linearly correlated with the output variable, we can conduct our multi-linear regression analysis. 
+
+
 
