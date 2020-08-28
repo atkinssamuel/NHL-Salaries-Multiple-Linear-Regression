@@ -216,7 +216,7 @@ if __name__ == "__main__":
 
     if multi_collinearity_elimination_confirmation:
         # These are the final variables that will be used for the MLR analysis (the redundant variables were removed):
-        centermen_testing_features = ['Ht', '+/-', 'OTG', 'G.Snap', 'G.Tip', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
+        centermen_testing_features = ['Ht', '+/-', 'OTG', 'G.Snap', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
         c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
                                                   centermen_testing_features, \
                                                   "Centermen Data", \
@@ -225,22 +225,22 @@ if __name__ == "__main__":
         c_multi_col_confirm = np.asarray(c_multi_col_confirm)
         np.savetxt(paths.centermen_results + 'c_multi_col_confirm.csv', c_multi_col_confirm, delimiter=',', fmt="%s")
 
-        winger_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
-        w_multi_col_confirm = dv_dv_correlation_test(defensemen_data, columns, \
-                                                winger_testing_features, \
-                                                "Winger Data", \
-                                                "wingers", \
-                                                paths.winger_results + paths.dv_iv_scatter)
-        w_multi_col_confirm = np.asarray(w_multi_col_confirm)
-        np.savetxt(paths.winger_results + 'w_multi_col_confirm.csv', w_multi_col_confirm, delimiter=',', fmt="%s")
-
-        # These are the variables that are linearly correlated with the output variable for defensemen:
-        defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
-                                       'iFOL', 'Wide', 'S.Wrst']
-        d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
-                                                defensemen_testing_features, \
-                                                "Defensemen Data", \
-                                                "defensemen", \
-                                                paths.defensemen_results + paths.dv_iv_scatter)
-        d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
-        np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
+        # winger_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
+        # w_multi_col_confirm = dv_dv_correlation_test(defensemen_data, columns, \
+        #                                         winger_testing_features, \
+        #                                         "Winger Data", \
+        #                                         "wingers", \
+        #                                         paths.winger_results + paths.dv_iv_scatter)
+        # w_multi_col_confirm = np.asarray(w_multi_col_confirm)
+        # np.savetxt(paths.winger_results + 'w_multi_col_confirm.csv', w_multi_col_confirm, delimiter=',', fmt="%s")
+        #
+        # # These are the variables that are linearly correlated with the output variable for defensemen:
+        # defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
+        #                                'iFOL', 'Wide', 'S.Wrst']
+        # d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
+        #                                         defensemen_testing_features, \
+        #                                         "Defensemen Data", \
+        #                                         "defensemen", \
+        #                                         paths.defensemen_results + paths.dv_iv_scatter)
+        # d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
+        # np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
