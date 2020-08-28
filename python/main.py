@@ -216,7 +216,7 @@ if __name__ == "__main__":
 
     if multi_collinearity_elimination_confirmation:
         # These are the final variables that will be used for the MLR analysis (the redundant variables were removed):
-        centermen_testing_features = ['Ht', '+/-', 'OTG', 'G.Snap', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
+        centermen_testing_features = ['Ht', '+/-', 'G.Snap', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
         c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
                                                   centermen_testing_features, \
                                                   "Centermen Data", \
