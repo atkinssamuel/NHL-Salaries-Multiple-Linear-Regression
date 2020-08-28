@@ -51,7 +51,7 @@ The ratio, then, of the covariance of a set of data pairs and the product of the
 
 ![](images/equations/r-value.png)
 
-An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. Variable pairs that possessed an r-value less than -0.6 or greater than 0.6 were considered. 
+An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. Variable pairs that possessed an r-value less than -0.6 or greater than 0.6 were considered.
  
 The p-value was also computed for each feature. The p-value is the probability that we would have observed the data given that the null hypothesis is true. In this context the null hypothesis is that the data is not linearly correlated. Therefore, the p-value in this context is the probability that we would have observed the data if the correlation coefficients were zero (the data is not linearly correlated). The p-value is determined by first finding the t-value. 
 
@@ -59,9 +59,9 @@ The p-value was also computed for each feature. The p-value is the probability t
 
 This value allows us to observe the 2-tailed p-value by consulting a t-distribution table.
 
-After determining which variables are correlated with the dependent variable, salary, we must then check for multi-collinearity. Multi-collinearity occurs when two independent variables are linearly correlated. When this occurs, the two variables are redundant and one of them should be excluded. We will determine if two independent variables are correlated using the same techniques we used for the dependent-independent data pairs. 
+After determining which variables correlate with the dependent variable, salary, multi-collinearity between the dependent variables must be checked. Multi-collinearity occurs when two independent variables are linearly correlated. When this occurs, the two variables are redundant and one of them should be excluded. We will determine if two independent variables are correlated using the same techniques we used for the dependent-independent data pairs. 
 
-After determining which variables are linearly correlated with the output variable, we can conduct our multi-linear regression analysis. 
+After eliminating the redundant variables, we can then conduct our multi-linear regression analysis. 
 
 ## MLR Analysis
 Since we are assuming that the dependent variable is linearly correlated with the dependent variables, the equation that describes the relationship between the salary, y, and the data features, x<sub>1</sub> to x<sub>k</sub> is:
@@ -108,6 +108,16 @@ And finally, to minimize the least squared error, we will set the derivative to 
 ![](images/equations/MLR-deriv-3.png)
 
 As shown above, we now have an estimate for the ideal weights in the context of multi-linear regression. We can use this estimate to create a model that accurately describes the relationship between the independent variables and the dependent output variable. 
+
+## Results
+### Centermen
+The variables that correlated with the output variable, salary, according to the metrics described above (p-value and r-value) were:
+
+```
+G, A, A1, A2, PTS, Shifts, TOI, TOIX, TOI/GP, TOI%
+```
+
+The [c_corr_values.csv]() file includes all of the p-values and r-values for each dependent-independent data pairing. As mentioned previously, variables that had an r-value less than -0.6 or greater than 0.6 were said to strongly correlate with the output variable. 
 
 
 

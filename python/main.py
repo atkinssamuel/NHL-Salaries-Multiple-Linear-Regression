@@ -1,7 +1,7 @@
 from python.consts import *
 import numpy as np
 import matplotlib.pyplot as plt
-# save to csv file
+from scipy import stats
 
 def get_feature_index(columns, feature_name):
     return np.where(columns.flatten() == feature_name)[0][0]
@@ -40,22 +40,28 @@ def compute_t_value(r, n):
     return r * np.sqrt(n - 2) / np.sqrt(1 - np.power(r, 2))
 
 
+def compute_p_value(t, n):
+    return stats.t.sf(np.abs(t), n - 1) * 2
+
+
 def compute_weights(X, Y):
     return np.matmul(np.inv(np.matmul(X, np.transpose(X))), np.matmul(np.transpose(X), Y))
 
 
 def dv_iv_correlation_test(data, columns, testing_features, dataset_title, dataset_lower, save_dest):
     salary_data = get_data_column(data, get_feature_index(columns, "Salary"))
-    r_values = []
+    correlation_metrics = []
     print("\n{}:".format(dataset_title))
     for testing_feature in testing_features:
         plt.clf()
         print("Testing Feature = {}".format(testing_feature))
         testing_feature_index = get_feature_index(columns, testing_feature)
         testing_feature_data = get_data_column(data, testing_feature_index)
+        n = len(testing_feature_data)
 
         r_value = compute_pearson_correlation_coefficient(testing_feature_data, salary_data)
-        r_values.append([testing_feature, r_value])
+        p_value = compute_p_value(compute_t_value(r_value, n), n)
+        correlation_metrics.append([testing_feature, r_value, p_value])
         salary_data_m = salary_data/1000000
         plt.scatter(testing_feature_data, salary_data_m, s=0.7)
         plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
@@ -70,10 +76,12 @@ def dv_iv_correlation_test(data, columns, testing_features, dataset_title, datas
         plt.savefig(save_dest + "{}_{}".format(dataset_lower, testing_feature))
         plt.close()
         # plt.show()
-    return r_values
+
+    correlation_headers = np.array(["Test Feature", "R-Value", "P-Value"]).reshape((1, -1))
+    return np.vstack((correlation_headers, correlation_metrics))
 
 def dv_dv_correlation_test(data, columns, testing_features, dataset_title, dataset_lower, save_dest):
-    r_values = np.zeros((len(testing_features), len(testing_features), 3))
+    correlation_metrics = []
     print("\n{}:".format(dataset_title))
     for i in range(len(testing_features)):
         testing_feature_A = testing_features[i]
@@ -89,26 +97,35 @@ def dv_dv_correlation_test(data, columns, testing_features, dataset_title, datas
             testing_feature_index_B = get_feature_index(columns, testing_feature_B)
             testing_feature_data_B = get_data_column(data, testing_feature_index_B)
 
-            r_values[i, j] = [testing_feature_A, testing_feature_B, compute_pearson_correlation_coefficient(testing_feature_data_A, testing_feature_data_B)]
+            n = len(testing_feature_data_A)
+
+            r_value = compute_pearson_correlation_coefficient(testing_feature_data_A, testing_feature_data_B)
+            correlation_metrics.append([testing_feature_A, testing_feature_B, r_value, compute_p_value(compute_t_value(r_value, n), n)])
+
             plt.scatter(testing_feature_data_A, testing_feature_data_B, s=0.7)
             plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
             plt.title("{} - {} vs. {}".format(dataset_title, testing_feature_A, testing_feature_B))
             plt.xlabel("{}".format(testing_feature_A))
             plt.ylabel("{}".format(testing_feature_B))
 
-            testing_feature = testing_feature.replace(".", "_")
-            testing_feature = testing_feature.replace("+/-", "plus_minus")
-            testing_feature = testing_feature.replace("/", "_")
+            testing_feature_A_temp = testing_feature_A.replace(".", "_")
+            testing_feature_A_temp = testing_feature_A_temp.replace("+/-", "plus_minus")
+            testing_feature_A_temp = testing_feature_A_temp.replace("/", "_")
 
-            plt.savefig(save_dest + "{}_{}_vs_{}".format(dataset_lower, testing_feature_A, testing_feature_B))
+            testing_feature_B_temp = testing_feature_B.replace(".", "_")
+            testing_feature_B_temp = testing_feature_B_temp.replace("+/-", "plus_minus")
+            testing_feature_B_temp = testing_feature_B_temp.replace("/", "_")
+
+            plt.savefig(save_dest + "{}_{}_vs_{}".format(dataset_lower, testing_feature_A_temp, testing_feature_B_temp))
             plt.close()
             # plt.show()
-    return r_values
+    correlation_headers = np.array(["Test Feature A", "Test Feature B", "R-Value", "P-Value"]).reshape((1, -1))
+    return np.vstack((correlation_headers, correlation_metrics))
 
 
 if __name__ == "__main__":
-    correlation_testing = True
-
+    dv_iv_correlation_testing = False
+    dv_dv_correlation_testing = True
     columns = np.load(paths.position_separated + "columns.npy")
     centermen_data = np.load(paths.position_separated + "centermen.npy")
     winger_data = np.load(paths.position_separated + "wingers.npy")
@@ -128,36 +145,43 @@ if __name__ == "__main__":
 
     testing_feature_indices = get_feature_indices(columns, testing_features)
 
-    if correlation_testing:
-        c_r_values = dv_iv_correlation_test(centermen_data, columns, \
+    if dv_iv_correlation_testing:
+        c_corr_values = dv_iv_correlation_test(centermen_data, columns, \
                                testing_features, \
                                "Centermen Data", \
                                "centermen", \
                                paths.centermen_results + paths.dv_iv_scatter)
-        c_r_values = np.asarray(c_r_values)
-        np.savetxt(paths.centermen_results + 'c_r_values.csv', c_r_values, delimiter=',', fmt="%s")
+        c_corr_values = np.asarray(c_corr_values)
+        np.savetxt(paths.centermen_results + 'c_corr_values.csv', c_corr_values, delimiter=',', fmt="%s")
 
         original_testing_features = testing_features
         testing_features.remove("TOIX")
         testing_features.remove("TOI%")
-        d_r_values = dv_iv_correlation_test(defensemen_data, columns, \
+        d_corr_values = dv_iv_correlation_test(defensemen_data, columns, \
                                testing_features, \
                                "Defensemen Data", \
                                "defensemen", \
                                paths.defensemen_results + paths.dv_iv_scatter)
 
-        d_r_values = np.asarray(d_r_values)
-        np.savetxt(paths.defensemen_results + 'd_r_values.csv', d_r_values, delimiter=',', fmt="%s")
+        d_r_values = np.asarray(d_corr_values)
+        np.savetxt(paths.defensemen_results + 'd_corr_values.csv', d_corr_values, delimiter=',', fmt="%s")
 
         testing_features = original_testing_features
-        w_r_values = dv_iv_correlation_test(centermen_data, columns, \
+        w_corr_values = dv_iv_correlation_test(centermen_data, columns, \
                                testing_features, \
                                "Winger Data", \
                                "wingers", \
                                paths.winger_results + paths.dv_iv_scatter)
-        w_r_values = np.asarray(w_r_values)
-        np.savetxt(paths.winger_results + 'w_r_values.csv', w_r_values, delimiter=',', fmt="%s")
+        w_corr_values = np.asarray(w_corr_values)
+        np.savetxt(paths.winger_results + 'w_corr_values.csv', w_corr_values, delimiter=',', fmt="%s")
 
+
+
+    if dv_dv_correlation_testing:
+        centermen_testing_features = ['Ht', 'Wt', 'GP', 'G', 'A', 'A1', 'A2', 'PTS', '+/-', 'PIM', 'Shifts',
+                        'TOI', 'TOIX', 'TOI/GP', 'TOI%', 'iBLK', 'iFOW', 'iFOL', 'FO%', 'OTG', 'GWG', 'G.Bkhd',
+                        'G.Dflct', 'G.Slap', 'G.Snap', 'G.Tip', 'G.Wrap', 'G.Wrst', 'Post', 'Over', 'Wide', 'S.Bkhd',
+                        'S.Dflct', 'S.Slap', 'S.Snap', 'S.Tip', 'S.Wrap', 'S.Wrst']
         c_r_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
                                             testing_features, \
                                             "Centermen Data", \
