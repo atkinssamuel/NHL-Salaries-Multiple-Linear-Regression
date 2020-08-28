@@ -130,8 +130,8 @@ if __name__ == "__main__":
     dv_dv_correlation_testing = True
     multi_collinearity_elimination_confirmation = False
 
-    centermen_anal = True
-    winger_anal = False
+    centermen_anal = False
+    winger_anal = True
     defensemen_anal = False
 
     columns = np.load(paths.position_separated + "columns.npy")
@@ -227,18 +227,8 @@ if __name__ == "__main__":
             d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
             np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
 
-    if multi_collinearity_elimination_confirmation:
-        # These are the final variables that will be used for the MLR analysis (the redundant variables were removed):
-        if centermen_anal:
-            centermen_testing_features = ['Ht', '+/-', 'G.Snap', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
-            c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
-                                                         centermen_testing_features, \
-                                                         "Centermen Data", \
-                                                         "centermen", \
-                                                         paths.centermen_results + paths.dv_iv_scatter)
-            c_multi_col_confirm = np.asarray(c_multi_col_confirm)
-            np.savetxt(paths.centermen_results + 'c_multi_col_confirm.csv', c_multi_col_confirm, delimiter=',',
-                       fmt="%s")
+    # if multi_collinearity_elimination_confirmation:
+
 
         # winger_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
         # w_multi_col_confirm = dv_dv_correlation_test(defensemen_data, columns, \
