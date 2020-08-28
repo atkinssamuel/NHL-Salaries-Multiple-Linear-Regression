@@ -128,16 +128,21 @@ G, A1, A2, TOI/GP, iFOW, Wide
 To ensure that the above variables did not depend on each other, another multi-collinearity matrix was generated: [c_multi_col_confirm.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_multi_col_confirm.csv). Notice that none of the r-values in this file are greater than 0.85. Normally the threshold for linearity would be much more strict (< 0.6). However, for the purpose of our analysis, we would like to keep more than one dependent variable because it ensures that the problem remains a multi-regression problem and not a simple single-variable regression analysis. 
 
 ### Wingers
-Prior to illustrating the results for the wingers dataset, it is important to note that TOIX and TOI% were excluded from the analysis due to a staggering amount of empty cells. The [w-corr-values.csv]() file includes the p-values and r-values used for each data pairing. The same criteria used for center-men was applied to wingers. The following variables showed significant correlation with the output variable, salary:
+Prior to illustrating the results for the wingers dataset, it is important to note that TOIX and TOI% were excluded from the analysis due to a staggering amount of empty cells. The [w-corr-values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/wingers/w_corr_values.csv) file includes the p-values and r-values used for each data pairing. The same criteria used for center-men was applied to wingers. The following variables showed significant correlation with the output variable, salary:
 
 ```
 G, A, A1, A2, PTS, Shifts, TOI, TOI/GP, iFOW, iFOL, Wide, S.Wrst
 ```
 
-The above variables were then testing for multi-collinearity using an r-value of 0.85. These variables remained after eliminating redundant variables:
+The above variables were then testing for multi-collinearity using an r-value of 0.85. These variables remained after consulting [w_dv_dv_matrix.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/wingers/w_dv_dv_matrix.csv) and eliminating the redundant variables:
 
 ```
-
+G, A1, A2, TOI/GP, iFOW, Wide
 ```
+
+These variables are the same variables that were selected for the center-men analysis. This rejects our initial hypothesis that a center-man's value is dependent on completely different factors than a winger's value. The weights for the models for center-men and wingers may still be different, however. Just as with before, another [multi-collinearity matrix]() was generated to ensure that the remaining dependent variables did not strongly (|r| > 0.85) depend on each other.
+
+### Defensemen
+
 
 
