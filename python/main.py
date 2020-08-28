@@ -178,14 +178,11 @@ if __name__ == "__main__":
 
 
     if dv_dv_correlation_testing:
-        centermen_testing_features = ['Ht', 'Wt', 'GP', 'G', 'A', 'A1', 'A2', 'PTS', '+/-', 'PIM', 'Shifts',
-                        'TOI', 'TOIX', 'TOI/GP', 'TOI%', 'iBLK', 'iFOW', 'iFOL', 'FO%', 'OTG', 'GWG', 'G.Bkhd',
-                        'G.Dflct', 'G.Slap', 'G.Snap', 'G.Tip', 'G.Wrap', 'G.Wrst', 'Post', 'Over', 'Wide', 'S.Bkhd',
-                        'S.Dflct', 'S.Slap', 'S.Snap', 'S.Tip', 'S.Wrap', 'S.Wrst']
+        centermen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOIX', 'TOI/GP', 'TOI%']
         c_r_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
-                                            testing_features, \
+                                            centermen_testing_features, \
                                             "Centermen Data", \
                                             "centermen", \
                                             paths.centermen_results + paths.dv_iv_scatter)
-        c_r_matrix = np.asarray(c_r_dv_dv_matrix)
+        c_r_dv_dv_matrix = np.asarray(c_r_dv_dv_matrix)
         np.savetxt(paths.centermen_results + 'c_r_dv_dv_matrix.csv', c_r_dv_dv_matrix, delimiter=',', fmt="%s")

@@ -117,7 +117,9 @@ The variables that correlated with the output variable, salary, according to the
 G, A, A1, A2, PTS, Shifts, TOI, TOIX, TOI/GP, TOI%
 ```
 
-The [c_corr_values.csv]() file includes all of the p-values and r-values for each dependent-independent data pairing. As mentioned previously, variables that had an r-value less than -0.6 or greater than 0.6 were said to strongly correlate with the output variable. 
+The [c_corr_values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_corr_values.csv) file includes all of the p-values and r-values for each dependent-independent data pairing. As mentioned previously, variables that had an r-value less than -0.6 or greater than 0.6 were said to strongly correlate with the output variable and were considered for the following phase of the analysis. 
+
+The variables above were then testing for multi-collinearity using the aforementioned linearity metrics. These results are available in the 
 
 
 
