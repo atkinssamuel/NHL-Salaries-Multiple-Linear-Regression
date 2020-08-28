@@ -2,6 +2,7 @@ from python.consts import *
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
+from mpl_toolkits.mplot3d import axes3d
 
 
 def get_feature_index(columns, feature_name):
@@ -45,7 +46,7 @@ def compute_p_value(t, n):
 
 
 def compute_weights(X, Y):
-    return np.matmul(np.inv(np.matmul(X, np.transpose(X))), np.matmul(np.transpose(X), Y))
+    return np.matmul(np.linalg.inv(np.matmul(np.transpose(X), X)), np.matmul(np.transpose(X), Y))
 
 
 def dv_iv_correlation_test(data, columns, testing_features, dataset_title, dataset_lower, save_dest):
@@ -127,12 +128,12 @@ def dv_dv_correlation_test(data, columns, testing_features, dataset_title, datas
 
 if __name__ == "__main__":
     dv_iv_correlation_testing = False
-    dv_dv_correlation_testing = True
-    multi_collinearity_elimination_confirmation = False
+    dv_dv_correlation_testing = False
+    MLR_anal = True
 
     centermen_anal = False
-    winger_anal = True
-    defensemen_anal = False
+    winger_anal = False
+    defensemen_anal = True
 
     columns = np.load(paths.position_separated + "columns.npy")
     centermen_data = np.load(paths.position_separated + "centermen.npy")
@@ -222,7 +223,10 @@ if __name__ == "__main__":
 
         # These are the variables that are linearly correlated with the output variable for defensemen:
         if defensemen_anal:
-            defensemen_testing_features = ['A', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', ]
+            defensemen_testing_features = ['Wt', 'GP', 'G', 'A', 'A1', 'A2', 'PTS', 'PIM', 'Shifts',
+                        'TOI', 'TOI/GP', 'iBLK', 'OTG', 'GWG',
+                        'G.Dflct', 'G.Slap', 'G.Snap', 'G.Tip', 'G.Wrst', 'Post', 'Over', 'Wide', 'S.Bkhd',
+                        'S.Dflct', 'S.Slap', 'S.Snap', 'S.Tip', 'S.Wrst']
             d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
                                                     defensemen_testing_features, \
                                                     "Defensemen Data", \
@@ -231,24 +235,89 @@ if __name__ == "__main__":
             d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
             np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
 
-    if multi_collinearity_elimination_confirmation:
+    if MLR_anal:
+        if centermen_anal:
+            Y = np.array(centermen_data[:, get_feature_index(columns, "Salary")], dtype=float).reshape(-1, 1)
+            ones = np.ones((len(Y), 1))
+            X1 = np.array(centermen_data[:, get_feature_index(columns, "A")], dtype=float).reshape(-1, 1)
+            X = np.hstack((ones, X1))
+            centermen_beta = compute_weights(X, Y)
+            print("Beta Associated w/ the Center-men Dataset = {}".format(centermen_beta))
 
-        winger_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
-        w_multi_col_confirm = dv_dv_correlation_test(defensemen_data, columns, \
-                                                winger_testing_features, \
-                                                "Winger Data", \
-                                                "wingers", \
-                                                paths.winger_results + paths.dv_iv_scatter)
-        w_multi_col_confirm = np.asarray(w_multi_col_confirm)
-        np.savetxt(paths.winger_results + 'w_multi_col_confirm.csv', w_multi_col_confirm, delimiter=',', fmt="%s")
+            b0 = 515342.73458342
+            b1 = 139618.94964624
 
-        # These are the variables that are linearly correlated with the output variable for defensemen:
-        defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
-                                       'iFOL', 'Wide', 'S.Wrst']
-        d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
-                                                defensemen_testing_features, \
-                                                "Defensemen Data", \
-                                                "defensemen", \
-                                                paths.defensemen_results + paths.dv_iv_scatter)
-        d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
-        np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
+            x = np.array([i for i in range(60)]).reshape((60, 1))
+            y = np.ones((60, 1)) * b0 + x * b1
+            Y = Y / 1000000
+            plt.scatter(X1, Y, s=1)
+            y = y / 1000000
+            plt.plot(x, y, 'g')
+            plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+            plt.title("Center-men Linear Model")
+            plt.xlabel("Assists")
+            plt.ylabel("Salary $USD (in millions)")
+            plt.savefig(paths.centermen_results + "centermen_model")
+            plt.show()
+
+
+        if winger_anal:
+            Y = np.array(centermen_data[:, get_feature_index(columns, "Salary")], dtype=float).reshape(-1, 1)
+            ones = np.ones((len(Y), 1))
+            X1 = np.array(centermen_data[:, get_feature_index(columns, "A")], dtype=float).reshape(-1, 1)
+            X2 = np.array(centermen_data[:, get_feature_index(columns, "iFOW")], dtype=float).reshape(-1, 1)
+            X = np.hstack((ones, np.hstack((X1, X2))))
+            winger_beta = compute_weights(X, Y)
+            print("Beta Associated w/ the Winger Dataset = {}".format(winger_beta))
+
+            b0 = 330849.13104956
+            b1 = 86156.90770201
+            b2 = 3462.39882529
+
+            fig = plt.figure(figsize=(6, 6))
+            ax = fig.add_subplot(111, projection='3d')
+            Y = Y / 1000000
+            ax.scatter3D(X1, X2, Y)
+
+            x1, x2 = np.arange(0, 60, 0.1), np.arange(0, 1000, 0.1)
+            x1, x2 = np.meshgrid(x1, x2)
+            z = (b0 + x1 * b1 + x2 * b2)/1000000
+            ax.plot_surface(x1, x2, z, color="Green")
+            plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+            plt.xlabel("Assists")
+            plt.ylabel("Face-offs Won")
+            plt.title("Winger Multi-Linear Model")
+            ax.set_zlabel("Salary $USD (in millions)")
+            plt.savefig(paths.winger_results + "winger_model")
+            plt.show()
+
+        if defensemen_anal:
+            Y = np.array(centermen_data[:, get_feature_index(columns, "Salary")], dtype=float).reshape(-1, 1)
+            ones = np.ones((len(Y), 1))
+            X1 = np.array(centermen_data[:, get_feature_index(columns, "TOI/GP")], dtype=float).reshape(-1, 1)
+            X2 = np.array(centermen_data[:, get_feature_index(columns, "Wt")], dtype=float).reshape(-1, 1)
+            X = np.hstack((ones, np.hstack((X1, X2))))
+            defensemen_beta = compute_weights(X, Y)
+            print("Beta Associated w/ the Defense-men Dataset = {}".format(defensemen_beta))
+
+            b0 = -8512128.46386528
+            b1 = 529646.26848097
+            b2 = 18688.71378825
+
+            fig = plt.figure(figsize=(6, 6))
+            ax = fig.add_subplot(111, projection='3d')
+            Y = Y / 1000000
+            ax.scatter3D(X1, X2, Y)
+
+            x1, x2 = np.arange(0, 30, 0.1), np.arange(150, 250, 0.1)
+            x1, x2 = np.meshgrid(x1, x2)
+            z = (b0 + x1 * b1 + x2 * b2) / 1000000
+            ax.plot_surface(x1, x2, z, color="Green")
+            plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+            plt.xlabel("TOI/GP")
+            plt.ylabel("Wt")
+            plt.title("Defense-men Multi-Linear Model")
+            ax.set_zlabel("Salary $USD (in millions)")
+            plt.savefig(paths.defensemen_results + "defensemen_model")
+            plt.show()
+

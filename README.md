@@ -33,17 +33,17 @@ Unlike the forwards, a defense-man's value depends much more on his defensive co
 ----------------------
 
 ## Checking for Linear Relationships
-Center-men, wingers, and defensemen were all considered individually. Scatter plots between each potential independent variable and salary were created for each positional dataset. Clear linear relationships were noted. Furthermore, the r-value (Pearson product-moment correlation) and the p-value was also computed for each independent-dependent variable pair. 
+Center-men, wingers, and defensemen were all considered individually. Scatter plots between each potential independent variable and salary were created for each positional dataset. Clear linear relationships were noted. Furthermore, the r-value (Pearson product-moment correlation) and the p-value were also computed for each independent-dependent variable pair. 
 
 The Pearson product-moment correlation is the ratio of the covariance of a set of data pairs and the product of the two standard deviations of those data pairs. The covariance of two random variables, x and y, is as follows:
 
 ![](images/equations/covariance.png)
 
-The standard deviation of a random variable x, is:
+The covariance is a measure of the correlation between two variables. The standard deviation of a random variable x, is:
 
 ![](images/equations/standard-deviation.png)
 
-Therefore, the product of the standard deviations of two random variables, x and y, is:
+The standard deviation of a random variable, x, is a measure of how far away, on average, the data is situated from the mean. The product of the standard deviations of two random variables, x and y, is:
 
 ![](images/equations/std-deviation-product.png)
 
@@ -53,15 +53,13 @@ The ratio, then, of the covariance of a set of data pairs and the product of the
 
 An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. 
  
-The p-value was also computed for each feature. The p-value is the probability that we would have observed the data given that the null hypothesis is true. In this context the null hypothesis is that the data is not linearly correlated. Therefore, the p-value in this context is the probability that we would have observed the data if the correlation coefficients were zero (the data is not linearly correlated). The p-value is determined by first finding the t-value. 
+The p-value was also computed for each feature. The p-value is the probability that we would have observed the data given that the null hypothesis is true. In this context the null hypothesis is that the data is not linearly correlated. Therefore, the p-value in this context is the probability that we would have observed the data if the correlation coefficients were zero (the data is not linearly correlated). The p-value is determined by first finding the t-value: 
 
 ![](images/equations/t-value.png)
 
-This value allows us to observe the 2-tailed p-value by consulting a t-distribution table. It is common to consider an observation statistically significant if it's p-value is less than 0.05. We will use this metric to determine which dependent variables are correlated with the output variable.
+This value allows us to observe the 2-tailed p-value by consulting a t-distribution table. It is common to consider an observation statistically significant if it's p-value is less than 0.05. We will use this metric to determine which dependent variables are correlated with the output variable. We will use the r-value to compare the strength of relationships already deemed linear. 
 
-After determining which variables correlate with the dependent variable, salary, multi-collinearity between the dependent variables must be checked. Multi-collinearity occurs when two independent variables are linearly correlated. When this occurs, the two variables are redundant and one of them should be excluded. We will use the same metric for determining multi-collinearity as we did to determine a linear relationship between the input variables and the output variable. 
-
-After eliminating the redundant variables, we can then conduct our multi-linear regression analysis. 
+After determining which variables correlate with the dependent variable, salary, multi-collinearity between the dependent variables must be checked. Multi-collinearity occurs when two independent variables are linearly correlated. When this occurs, the two variables are redundant and one of them should be excluded. We will use the same metric for determining multi-collinearity as we did to determine a linear relationship between the input variables and the output variable (p < 0.05). When choosing between which variable to exclude, we will choose the variable that has the lower r-value. After eliminating the redundant variables, we can then conduct our multi-linear regression analysis and begin to form models.
 
 ## MLR Analysis
 Since we are assuming that the dependent variable is linearly correlated with the dependent variables, the equation that describes the relationship between the salary, y, and the data features, x<sub>1</sub> to x<sub>k</sub> is:
@@ -121,6 +119,12 @@ The [c_corr_values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Li
 
 The variables above were then testing for multi-collinearity. As mentioned previously, the metric used to determine linearity is a p-value < 0.05. A multi-collinearity matrix was generated and is illustrated in [c_dv_dv_matrix.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_dv_dv_matrix.csv). Since the most dominantly linear feature, assists, was linearly correlated with every single other feature, the only feature that will be used for this analysis is assists. 
 
+Using the equation for the estimate of the weights that we derived above, we can generate a model for the independent variable, salary, using the dependent variable, assists. The weight values for this single-variable regression problem are ```[515342.73458342, 139618.94964624]```. Using these weights, we can generate a linear model to predict the salaries of the NHL center-men based on the number of assists they get. Since our model only uses one variable, we can visualize it easily in 2 dimensions. Our model, alongside the real data, is illustrated in the following image:
+
+![](results/centermen/centermen_model.png)
+
+The green line in the image above attempts to capture a player's salary depending on how many assists he gets that year. For this analysis we could have used more variables and potentially achieved a more accurate model. However, this is a bad habit to fall into. Generally speaking, a simpler model is a more effective model. Any time two models have comparative accuracy, always choose the simpler one. 
+
 ### Wingers
 Prior to illustrating the results for the wingers dataset, it is important to note that TOIX and TOI% were excluded from the analysis due to a staggering amount of empty cells. The [w-corr-values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/wingers/w_corr_values.csv) file includes the p-values and r-values used for each data pairing. The same criteria used for center-men was applied to wingers. The variables that were linearly correlated with the output variable were:
 
@@ -128,9 +132,28 @@ Prior to illustrating the results for the wingers dataset, it is important to no
 Ht, Wt, GP, G, A, A1, A2, PTS, PIM, Shifts, TOI, TOI/GP, iBLK, iFOW', iFOL, FO%, OTG, GWG, G.Bkhd, G.Slap, G.Snap, G.Tip, G.Wrap, G.Wrst, Post, Over, Wide, S.Bkhd, S.Dflct, S.Slap, S.Snap, S.Tip, S.Wrap, S.Wrst
 ```
 
-The most dominantly linear variable in the analysis for wingers was also assists. All other variables except for face-offs won and face-offs lost were linearly correlated with assists. Therefore, the remaining dependent variables following redundancy elimination are assists and face-offs won.
+The most dominantly linear variable in the analysis for wingers was also assists. Using a [dependent variable-dependent variable p-value matrix](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/wingers/w_dv_dv_matrix.csv), redundant variables were removed. All other variables except for face-offs won and face-offs lost were linearly correlated with assists. Therefore, the remaining dependent variables following redundancy elimination are assists and face-offs won.
 
-### Defensemen
+The beta values produced using these variables are ```[330849.13104956, 86156.90770201, 3462.39882529]```. Given that there are now multiple variables that the output variable depends on, we require an extra dimension to visualize the linear relationship between the dependent variables and the independent output variable:
 
+![](results/wingers/winger_model.png)
 
+The image above illustrates that the salary of an NHL player depends on two variables: assists and face-offs won. The green surface is the model generated using the aforementioned techniques and the dots are the data used to create the model. 
 
+### Defense-men
+Just as with the wingers dataset, TOIX and TOI% were excluded due to their empty cells. The [d-corr-values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/defensemen/d_corr_values.csv) file compiles all of the p-values and r-values for each data pairing. The variables that possessed a p-value less than 0.05 are as follows:
+
+```
+Wt, GP, G', A, A1, A2, PTS, PIM, Shift, TOI, TOI/GP, iBLK, OTG, GWG, G.Dflct, G.Slap, G.Snap, G.Tip, G.Wrst, Post, Over, Wide, S.Bkhd, S.Dflct, S.Slap, S.Snap, S.Tip, S.Wrst
+```
+
+Unlike the previous datasets, the strongest linear correlation for the defense-men dataset occurred between the TOI/GP feature and the output variable, salary. Using the another [dependent variable-dependent variable p-value matrix](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/defensemen/d_dv_dv_matrix.csv), redundant variables were eliminated. As mentioned before, a p-value of less than 0.05 indicates a significant result. The only variables that remained after rectifying the redundancies were TOI/GP and Wt. 
+
+The weights that minimize the least squares criteria are ```[-8512128.46386528, 529646.26848097, 18688.71378825]```. The image below delineates the model alongside the data used to create it:
+
+![](results/defensemen/defensemen_model.png)
+
+Out of the three models, this model seems to trace the output variable the closest. Intuitively, the factors that a defense-man's salary depend upon make sense. Heavier defense-men, generally speaking, will find more success in a contact sport like hockey. Furthermore, the more minutes a defense-man can soak up each night, the more he is going to be able to help his team defensively.
+
+## Concluding Remarks
+The analysis presented in this repository helped me gain a stronger understanding of statistics and model comparison. By putting my knowledge of statistics and mathematics to practice, I learned a lot about the tedious nature of linear analysis. Furthermore, I learned that a tremendous amount of care must go into data pre-processing and relationship analysis. Creating the model is a tiny fraction of the bigger picture. 
