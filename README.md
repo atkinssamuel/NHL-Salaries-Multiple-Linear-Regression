@@ -119,11 +119,25 @@ G, A, A1, A2, PTS, Shifts, TOI, TOIX, TOI/GP, TOI%, iFOW, iFOL, Wide, S.Wrst
 
 The [c_corr_values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_corr_values.csv) file includes all of the p-values and r-values for each dependent-independent data pairing. As mentioned previously, variables that had an r-value less than -0.6 or greater than 0.6 were said to strongly correlate with the output variable and were considered for the following phase of the analysis. Interestingly, the face-off percentage of a center-man was not linearly correlated with his salary according to our analysis. The number of face-offs a center-man won and the number of face-offs a center-man lost were linearly correlated with his salary, however. This means that the more face-off opportunities a center-man is given, the higher his salary tends to be regardless of the outcome of each draw. 
 
-The variables above were then testing for multi-collinearity using the aforementioned r = 0.85 redundancy criteria. The following variables remained after this analysis:
+The variables above were then testing for multi-collinearity using the aforementioned r = 0.85 redundancy criteria. A multi-collinearity matrix was generated and is illustrated in [c_dv_dv_matrix.csv](). The following variables remained after this analysis:
 
 ```
-G, A1, A2, TOI/GP
+G, A1, A2, TOI/GP, iFOW, Wide, S.Wrst
 ```
 
+To ensure that the above variables did not depend on each other, another multi-collinearity matrix was generated: . Notice that none of the r-values in this file are greater than 0.85. 
+
+### Wingers
+Prior to beginning, it is important to note that TOIX and TOI% were excluded from the analysis due to a staggering amount of empty cells. The [w-corr-values.csv]() file includes the p-values and r-values used for each data pairing. The same criteria used for center-men was applied to wingers. The following variables showed significant correlation with the output variable, salary:
+
+```
+G, A, A1, A2, PTS, Shifts, TOI, TOI/GP, iFOW, iFOL, Wide, S.Wrst
+```
+
+The above variables were then testing for multi-collinearity using an r-value of 0.85. These variables remained after eliminating redundant variables:
+
+```
+
+```
 
 

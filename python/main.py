@@ -128,6 +128,8 @@ def dv_dv_correlation_test(data, columns, testing_features, dataset_title, datas
 if __name__ == "__main__":
     dv_iv_correlation_testing = False
     dv_dv_correlation_testing = True
+    multi_collinearity_elimination_confirmation = True
+
     columns = np.load(paths.position_separated + "columns.npy")
     centermen_data = np.load(paths.position_separated + "centermen.npy")
     winger_data = np.load(paths.position_separated + "wingers.npy")
@@ -180,30 +182,40 @@ if __name__ == "__main__":
     if dv_dv_correlation_testing:
         centermen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOIX', 'TOI/GP', 'TOI%', 'iFOW', \
                                       'iFOL', 'Wide', 'S.Wrst']
-        c_r_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
+        c_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
                                                   centermen_testing_features, \
                                                   "Centermen Data", \
                                                   "centermen", \
                                                   paths.centermen_results + paths.dv_iv_scatter)
-        c_r_dv_dv_matrix = np.asarray(c_r_dv_dv_matrix)
-        np.savetxt(paths.centermen_results + 'c_r_dv_dv_matrix.csv', c_r_dv_dv_matrix, delimiter=',', fmt="%s")
+        c_dv_dv_matrix = np.asarray(c_dv_dv_matrix)
+        np.savetxt(paths.centermen_results + 'c_dv_dv_matrix.csv', c_dv_dv_matrix, delimiter=',', fmt="%s")
 
-        winger_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOIX', 'TOI/GP', 'TOI%', 'iFOW', \
+        winger_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
                                       'iFOL', 'Wide', 'S.Wrst']
-        w_r_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
+        w_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
                                                   winger_testing_features, \
                                                   "Winger Data", \
                                                   "wingers", \
                                                   paths.winger_results + paths.dv_iv_scatter)
-        w_r_dv_dv_matrix = np.asarray(w_r_dv_dv_matrix)
-        np.savetxt(paths.winger_results + 'w_r_dv_dv_matrix.csv', w_r_dv_dv_matrix, delimiter=',', fmt="%s")
+        w_dv_dv_matrix = np.asarray(w_dv_dv_matrix)
+        np.savetxt(paths.winger_results + 'w_dv_dv_matrix.csv', w_dv_dv_matrix, delimiter=',', fmt="%s")
 
-        defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOIX', 'TOI/GP', 'TOI%', 'iFOW', \
+        defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
                                       'iFOL', 'Wide', 'S.Wrst']
-        d_r_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
+        d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
                                                   defensemen_testing_features, \
                                                   "Defensemen Data", \
                                                   "defensemen", \
                                                   paths.defensemen_results + paths.dv_iv_scatter)
-        d_r_dv_dv_matrix = np.asarray(d_r_dv_dv_matrix)
-        np.savetxt(paths.defensemen_results + 'd_r_dv_dv_matrix.csv', d_r_dv_dv_matrix, delimiter=',', fmt="%s")
+        d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
+        np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
+
+    if multi_collinearity_elimination_confirmation:
+        centermen_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide', 'S.Wrst']
+        c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
+                                                  centermen_testing_features, \
+                                                  "Centermen Data", \
+                                                  "centermen", \
+                                                  paths.centermen_results + paths.dv_iv_scatter)
+        c_multi_col_confirm = np.asarray(c_multi_col_confirm)
+        np.savetxt(paths.centermen_results + 'c_multi_col_confirm.csv', c_multi_col_confirm, delimiter=',', fmt="%s")
