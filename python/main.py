@@ -127,7 +127,7 @@ def dv_dv_correlation_test(data, columns, testing_features, dataset_title, datas
 
 if __name__ == "__main__":
     dv_iv_correlation_testing = False
-    dv_dv_correlation_testing = True
+    dv_dv_correlation_testing = False
     multi_collinearity_elimination_confirmation = True
 
     columns = np.load(paths.position_separated + "columns.npy")
@@ -216,7 +216,7 @@ if __name__ == "__main__":
 
     if multi_collinearity_elimination_confirmation:
         # These are the final variables that will be used for the MLR analysis (the redundant variables were removed):
-        centermen_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
+        centermen_testing_features = ['Ht', '+/-', 'OTG', 'G.Snap', 'G.Tip', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
         c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
                                                   centermen_testing_features, \
                                                   "Centermen Data", \
