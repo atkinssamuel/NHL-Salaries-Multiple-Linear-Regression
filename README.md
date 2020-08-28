@@ -119,16 +119,16 @@ G, A, A1, A2, PTS, Shifts, TOI, TOIX, TOI/GP, TOI%, iFOW, iFOL, Wide, S.Wrst
 
 The [c_corr_values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_corr_values.csv) file includes all of the p-values and r-values for each dependent-independent data pairing. As mentioned previously, variables that had an r-value less than -0.6 or greater than 0.6 were said to strongly correlate with the output variable and were considered for the following phase of the analysis. Interestingly, the face-off percentage of a center-man was not linearly correlated with his salary according to our analysis. The number of face-offs a center-man won and the number of face-offs a center-man lost were linearly correlated with his salary, however. This means that the more face-off opportunities a center-man is given, the higher his salary tends to be regardless of the outcome of each draw. 
 
-The variables above were then testing for multi-collinearity using the aforementioned r = 0.85 redundancy criteria. A multi-collinearity matrix was generated and is illustrated in [c_dv_dv_matrix.csv](). The following variables remained after this analysis:
+The variables above were then testing for multi-collinearity using the aforementioned r = 0.85 redundancy criteria. A multi-collinearity matrix was generated and is illustrated in [c_dv_dv_matrix.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_dv_dv_matrix.csv). The following variables remained after this analysis:
 
 ```
-G, A1, A2, TOI/GP, iFOW, Wide, S.Wrst
+G, A1, A2, TOI/GP, iFOW, Wide
 ```
 
-To ensure that the above variables did not depend on each other, another multi-collinearity matrix was generated: . Notice that none of the r-values in this file are greater than 0.85. 
+To ensure that the above variables did not depend on each other, another multi-collinearity matrix was generated: [c_multi_col_confirm.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_multi_col_confirm.csv). Notice that none of the r-values in this file are greater than 0.85. Normally the threshold for linearity would be much more strict (< 0.6). However, for the purpose of our analysis, we would like to keep more than one dependent variable because it ensures that the problem remains a multi-regression problem and not a simple single-variable regression analysis. 
 
 ### Wingers
-Prior to beginning, it is important to note that TOIX and TOI% were excluded from the analysis due to a staggering amount of empty cells. The [w-corr-values.csv]() file includes the p-values and r-values used for each data pairing. The same criteria used for center-men was applied to wingers. The following variables showed significant correlation with the output variable, salary:
+Prior to illustrating the results for the wingers dataset, it is important to note that TOIX and TOI% were excluded from the analysis due to a staggering amount of empty cells. The [w-corr-values.csv]() file includes the p-values and r-values used for each data pairing. The same criteria used for center-men was applied to wingers. The following variables showed significant correlation with the output variable, salary:
 
 ```
 G, A, A1, A2, PTS, Shifts, TOI, TOI/GP, iFOW, iFOL, Wide, S.Wrst

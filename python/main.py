@@ -211,7 +211,7 @@ if __name__ == "__main__":
         np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
 
     if multi_collinearity_elimination_confirmation:
-        centermen_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide', 'S.Wrst']
+        centermen_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
         c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
                                                   centermen_testing_features, \
                                                   "Centermen Data", \
