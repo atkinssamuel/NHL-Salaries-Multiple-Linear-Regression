@@ -51,15 +51,15 @@ The ratio, then, of the covariance of a set of data pairs and the product of the
 
 ![](images/equations/r-value.png)
 
-An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. Variable pairs that possessed an r-value less than -0.6 or greater than 0.6 were considered.
+An r-value that approaches +1 indicates a strong positive correlation, an r-value that approaches -1 indicates a strong negative correlation, and an r value that does not approach -1 or +1 does not indicate a linear relationship between the data pairs. 
  
 The p-value was also computed for each feature. The p-value is the probability that we would have observed the data given that the null hypothesis is true. In this context the null hypothesis is that the data is not linearly correlated. Therefore, the p-value in this context is the probability that we would have observed the data if the correlation coefficients were zero (the data is not linearly correlated). The p-value is determined by first finding the t-value. 
 
 ![](images/equations/t-value.png)
 
-This value allows us to observe the 2-tailed p-value by consulting a t-distribution table.
+This value allows us to observe the 2-tailed p-value by consulting a t-distribution table. It is common to consider an observation statistically significant if it's p-value is less than 0.05. We will use this metric to determine which dependent variables are correlated with the output variable.
 
-After determining which variables correlate with the dependent variable, salary, multi-collinearity between the dependent variables must be checked. Multi-collinearity occurs when two independent variables are linearly correlated. When this occurs, the two variables are redundant and one of them should be excluded. We will determine if two independent variables are correlated using a more strict metric. Variable pairs with r-values greater than 0.85 will be considered redundant.
+After determining which variables correlate with the dependent variable, salary, multi-collinearity between the dependent variables must be checked. Multi-collinearity occurs when two independent variables are linearly correlated. When this occurs, the two variables are redundant and one of them should be excluded. We will use the same metric for determining multi-collinearity as we did to determine a linear relationship between the input variables and the output variable. 
 
 After eliminating the redundant variables, we can then conduct our multi-linear regression analysis. 
 
@@ -111,15 +111,17 @@ As shown above, we now have an estimate for the ideal weights in the context of 
 
 ## Results
 ### Centermen
-The variables that correlated with the output variable, salary, according to the metrics described above (p-value and r-value) were:
+The variables that correlated with the output variable, salary, according to the linearity metric defined above (p < 0.05) are:
 
 ```
-G, A, A1, A2, PTS, Shifts, TOI, TOIX, TOI/GP, TOI%, iFOW, iFOL, Wide, S.Wrst
+Ht, Wt, GP, G, A, A1, A2, PTS, +/-, Shifts, TOI, TOIX, TOI/GP, TOI%, iBLK, iFOW, iFOL, FO%, OTG, GWG, G.Bkhd, G.Snap, G.Tip, G.Wrap, G.Wrist, Post, Over, Wide, S.Bkhd, S.Dflct, S.Slap, S.Tip, S.Wrap, S.Wrst
 ```
 
-The [c_corr_values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_corr_values.csv) file includes all of the p-values and r-values for each dependent-independent data pairing. As mentioned previously, variables that had an r-value less than -0.6 or greater than 0.6 were said to strongly correlate with the output variable and were considered for the following phase of the analysis. Interestingly, the face-off percentage of a center-man was not linearly correlated with his salary according to our analysis. The number of face-offs a center-man won and the number of face-offs a center-man lost were linearly correlated with his salary, however. This means that the more face-off opportunities a center-man is given, the higher his salary tends to be regardless of the outcome of each draw. 
+The [c_corr_values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_corr_values.csv) file includes all of the p-values and r-values for each dependent-independent data pairing. 
 
-The variables above were then testing for multi-collinearity using the aforementioned r = 0.85 redundancy criteria. A multi-collinearity matrix was generated and is illustrated in [c_dv_dv_matrix.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_dv_dv_matrix.csv). The following variables remained after this analysis:
+The variables above were then testing for multi-collinearity. As mentioned previously, the metric used to determine linearity is a p-value < 0.05. A multi-collinearity matrix was generated and is illustrated in [c_dv_dv_matrix.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_dv_dv_matrix.csv). The following variables remained after removing all of the redundant variables:
+
+*NOTE: The dominant variables used to remove the redundant variables were PTS, 
 
 ```
 G, A1, A2, TOI/GP, iFOW, Wide

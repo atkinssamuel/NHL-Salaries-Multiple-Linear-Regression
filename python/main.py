@@ -181,8 +181,10 @@ if __name__ == "__main__":
 
     if dv_dv_correlation_testing:
         # These are the variables that are linearly correlated with the output variable for centermen:
-        centermen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOIX', 'TOI/GP', 'TOI%', 'iFOW', \
-                                      'iFOL', 'Wide', 'S.Wrst']
+        centermen_testing_features = ['Ht', 'Wt', 'GP', 'G', 'A', 'A1', 'A2', 'PTS', '+/-', 'Shifts', 'TOI', 'TOIX', \
+                                      'TOI/GP', 'TOI%', 'iBLK', 'iFOW', 'iFOL', 'FO%', 'OTG', 'GWG', 'G.Bkhd', 'G.Snap',\
+                                      'G.Tip', 'G.Wrap', 'G.Wrst', 'Post', 'Over', 'Wide', 'S.Bkhd', 'S.Dflct', 'S.Slap',\
+                                      'S.Tip', 'S.Wrap', 'S.Wrst']
         c_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
                                                   centermen_testing_features, \
                                                   "Centermen Data", \
@@ -203,8 +205,7 @@ if __name__ == "__main__":
         np.savetxt(paths.winger_results + 'w_dv_dv_matrix.csv', w_dv_dv_matrix, delimiter=',', fmt="%s")
 
         # These are the variables that are linearly correlated with the output variable for defensemen:
-        defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
-                                      'iFOL', 'Wide', 'S.Wrst']
+        defensemen_testing_features = ['A', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', ]
         d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
                                                   defensemen_testing_features, \
                                                   "Defensemen Data", \
@@ -232,3 +233,14 @@ if __name__ == "__main__":
                                                 paths.winger_results + paths.dv_iv_scatter)
         w_multi_col_confirm = np.asarray(w_multi_col_confirm)
         np.savetxt(paths.winger_results + 'w_multi_col_confirm.csv', w_multi_col_confirm, delimiter=',', fmt="%s")
+
+        # These are the variables that are linearly correlated with the output variable for defensemen:
+        defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
+                                       'iFOL', 'Wide', 'S.Wrst']
+        d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
+                                                defensemen_testing_features, \
+                                                "Defensemen Data", \
+                                                "defensemen", \
+                                                paths.defensemen_results + paths.dv_iv_scatter)
+        d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
+        np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
