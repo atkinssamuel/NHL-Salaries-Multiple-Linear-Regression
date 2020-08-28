@@ -180,6 +180,7 @@ if __name__ == "__main__":
         np.savetxt(paths.winger_results + 'w_corr_values.csv', w_corr_values, delimiter=',', fmt="%s")
 
     if dv_dv_correlation_testing:
+        # These are the variables that are linearly correlated with the output variable for centermen:
         centermen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOIX', 'TOI/GP', 'TOI%', 'iFOW', \
                                       'iFOL', 'Wide', 'S.Wrst']
         c_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
@@ -190,6 +191,7 @@ if __name__ == "__main__":
         c_dv_dv_matrix = np.asarray(c_dv_dv_matrix)
         np.savetxt(paths.centermen_results + 'c_dv_dv_matrix.csv', c_dv_dv_matrix, delimiter=',', fmt="%s")
 
+        # These are the variables that are linearly correlated with the output variable for wingers:
         winger_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
                                       'iFOL', 'Wide', 'S.Wrst']
         w_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
@@ -200,6 +202,7 @@ if __name__ == "__main__":
         w_dv_dv_matrix = np.asarray(w_dv_dv_matrix)
         np.savetxt(paths.winger_results + 'w_dv_dv_matrix.csv', w_dv_dv_matrix, delimiter=',', fmt="%s")
 
+        # These are the variables that are linearly correlated with the output variable for defensemen:
         defensemen_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
                                       'iFOL', 'Wide', 'S.Wrst']
         d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
@@ -211,6 +214,7 @@ if __name__ == "__main__":
         np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
 
     if multi_collinearity_elimination_confirmation:
+        # These are the final variables that will be used for the MLR analysis (the redundant variables were removed):
         centermen_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
         c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
                                                   centermen_testing_features, \
