@@ -121,10 +121,10 @@ The [c_corr_values.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Li
 
 The variables above were then testing for multi-collinearity. As mentioned previously, the metric used to determine linearity is a p-value < 0.05. A multi-collinearity matrix was generated and is illustrated in [c_dv_dv_matrix.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_dv_dv_matrix.csv). The following variables remained after removing all of the redundant variables:
 
-
+*NOTE: The most dominantly linear (small |r| - 1) variables were selected as the dominant variables. The most dominant variable in this situation was assists.*
 
 ```
-Ht, +/-, OTG, G.Snap, G.Tip, G.Wrap, Post, S.Dflct, S.Slap
+Ht, Wt, GP, G, A, A1, A2, PTS, +/-, Shifts, TOI, TOIX, TOI/GP, TOI%, iBLK, iFOW, iFOL, FO%, OTG, GWG, G.Bkhd, G.Snap, G.Tip, G.Wrap, G.Wrist, Post, Over, Wide, S.Bkhd, S.Dflct, S.Slap, S.Tip, S.Wrap, S.Wrst
 ```
 
 To ensure that the above variables did not depend on each other, another multi-collinearity matrix was generated: [c_multi_col_confirm.csv](https://github.com/atkinssamuel/NHL-Salaries-Multiple-Linear-Regression/blob/master/results/centermen/c_multi_col_confirm.csv). Notice that none of the r-values in this file are greater than 0.85. Normally the threshold for linearity would be much more strict (< 0.6). However, for the purpose of our analysis, we would like to keep more than one dependent variable because it ensures that the problem remains a multi-regression problem and not a simple single-variable regression analysis. 

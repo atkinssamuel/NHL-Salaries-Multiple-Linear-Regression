@@ -86,7 +86,7 @@ def dv_dv_correlation_test(data, columns, testing_features, dataset_title, datas
     print("\n{}:".format(dataset_title))
     for i in range(len(testing_features)):
         testing_feature_A = testing_features[i]
-        for j in range(i, len(testing_features)):
+        for j in range(len(testing_features)):
             testing_feature_B = testing_features[j]
             plt.clf()
             print("Testing Feature A = {}".format(testing_feature_A))
@@ -127,8 +127,12 @@ def dv_dv_correlation_test(data, columns, testing_features, dataset_title, datas
 
 if __name__ == "__main__":
     dv_iv_correlation_testing = False
-    dv_dv_correlation_testing = False
-    multi_collinearity_elimination_confirmation = True
+    dv_dv_correlation_testing = True
+    multi_collinearity_elimination_confirmation = False
+
+    centermen_anal = True
+    winger_anal = False
+    defensemen_anal = False
 
     columns = np.load(paths.position_separated + "columns.npy")
     centermen_data = np.load(paths.position_separated + "centermen.npy")
@@ -150,80 +154,91 @@ if __name__ == "__main__":
     testing_feature_indices = get_feature_indices(columns, testing_features)
 
     if dv_iv_correlation_testing:
-        c_corr_values = dv_iv_correlation_test(centermen_data, columns, \
-                                               testing_features, \
-                                               "Centermen Data", \
-                                               "centermen", \
-                                               paths.centermen_results + paths.dv_iv_scatter)
-        c_corr_values = np.asarray(c_corr_values)
-        np.savetxt(paths.centermen_results + 'c_corr_values.csv', c_corr_values, delimiter=',', fmt="%s")
+        if centermen_anal:
+            c_corr_values = dv_iv_correlation_test(centermen_data, columns, \
+                                                   testing_features, \
+                                                   "Centermen Data", \
+                                                   "centermen", \
+                                                   paths.centermen_results + paths.dv_iv_scatter)
+            c_corr_values = np.asarray(c_corr_values)
+            np.savetxt(paths.centermen_results + 'c_corr_values.csv', c_corr_values, delimiter=',', fmt="%s")
 
         original_testing_features = testing_features
         testing_features.remove("TOIX")
         testing_features.remove("TOI%")
-        d_corr_values = dv_iv_correlation_test(defensemen_data, columns, \
-                                               testing_features, \
-                                               "Defensemen Data", \
-                                               "defensemen", \
-                                               paths.defensemen_results + paths.dv_iv_scatter)
 
-        d_r_values = np.asarray(d_corr_values)
-        np.savetxt(paths.defensemen_results + 'd_corr_values.csv', d_corr_values, delimiter=',', fmt="%s")
+        if defensemen_anal:
+            d_corr_values = dv_iv_correlation_test(defensemen_data, columns, \
+                                                   testing_features, \
+                                                   "Defensemen Data", \
+                                                   "defensemen", \
+                                                   paths.defensemen_results + paths.dv_iv_scatter)
+
+            d_r_values = np.asarray(d_corr_values)
+            np.savetxt(paths.defensemen_results + 'd_corr_values.csv', d_corr_values, delimiter=',', fmt="%s")
 
         testing_features = original_testing_features
-        w_corr_values = dv_iv_correlation_test(centermen_data, columns, \
-                                               testing_features, \
-                                               "Winger Data", \
-                                               "wingers", \
-                                               paths.winger_results + paths.dv_iv_scatter)
-        w_corr_values = np.asarray(w_corr_values)
-        np.savetxt(paths.winger_results + 'w_corr_values.csv', w_corr_values, delimiter=',', fmt="%s")
+        if winger_anal:
+            w_corr_values = dv_iv_correlation_test(centermen_data, columns, \
+                                                   testing_features, \
+                                                   "Winger Data", \
+                                                   "wingers", \
+                                                   paths.winger_results + paths.dv_iv_scatter)
+            w_corr_values = np.asarray(w_corr_values)
+            np.savetxt(paths.winger_results + 'w_corr_values.csv', w_corr_values, delimiter=',', fmt="%s")
 
     if dv_dv_correlation_testing:
         # These are the variables that are linearly correlated with the output variable for centermen:
-        centermen_testing_features = ['Ht', 'Wt', 'GP', 'G', 'A', 'A1', 'A2', 'PTS', '+/-', 'Shifts', 'TOI', 'TOIX', \
-                                      'TOI/GP', 'TOI%', 'iBLK', 'iFOW', 'iFOL', 'FO%', 'OTG', 'GWG', 'G.Bkhd', 'G.Snap',\
-                                      'G.Tip', 'G.Wrap', 'G.Wrst', 'Post', 'Over', 'Wide', 'S.Bkhd', 'S.Dflct', 'S.Slap',\
-                                      'S.Tip', 'S.Wrap', 'S.Wrst']
-        c_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
-                                                  centermen_testing_features, \
-                                                  "Centermen Data", \
-                                                  "centermen", \
-                                                  paths.centermen_results + paths.dv_iv_scatter)
-        c_dv_dv_matrix = np.asarray(c_dv_dv_matrix)
-        np.savetxt(paths.centermen_results + 'c_dv_dv_matrix.csv', c_dv_dv_matrix, delimiter=',', fmt="%s")
+        if centermen_anal:
+            centermen_testing_features = ['Ht', 'Wt', 'GP', 'G', 'A', 'A1', 'A2', 'PTS', '+/-', 'Shifts', 'TOI', 'TOIX', \
+                                          'TOI/GP', 'TOI%', 'iBLK', 'iFOW', 'iFOL', 'FO%', 'OTG', 'GWG', 'G.Bkhd',
+                                          'G.Snap', \
+                                          'G.Tip', 'G.Wrap', 'G.Wrst', 'Post', 'Over', 'Wide', 'S.Bkhd', 'S.Dflct',
+                                          'S.Slap', \
+                                          'S.Tip', 'S.Wrap', 'S.Wrst']
+            c_dv_dv_matrix = dv_dv_correlation_test(centermen_data, columns, \
+                                                    centermen_testing_features, \
+                                                    "Centermen Data", \
+                                                    "centermen", \
+                                                    paths.centermen_results + paths.dv_iv_scatter)
+            c_dv_dv_matrix = np.asarray(c_dv_dv_matrix)
+            np.savetxt(paths.centermen_results + 'c_dv_dv_matrix.csv', c_dv_dv_matrix, delimiter=',', fmt="%s")
 
         # These are the variables that are linearly correlated with the output variable for wingers:
-        winger_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
-                                      'iFOL', 'Wide', 'S.Wrst']
-        w_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
-                                                  winger_testing_features, \
-                                                  "Winger Data", \
-                                                  "wingers", \
-                                                  paths.winger_results + paths.dv_iv_scatter)
-        w_dv_dv_matrix = np.asarray(w_dv_dv_matrix)
-        np.savetxt(paths.winger_results + 'w_dv_dv_matrix.csv', w_dv_dv_matrix, delimiter=',', fmt="%s")
+        if winger_anal:
+            winger_testing_features = ['G', 'A', 'A1', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', 'iFOW', \
+                                       'iFOL', 'Wide', 'S.Wrst']
+            w_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
+                                                    winger_testing_features, \
+                                                    "Winger Data", \
+                                                    "wingers", \
+                                                    paths.winger_results + paths.dv_iv_scatter)
+            w_dv_dv_matrix = np.asarray(w_dv_dv_matrix)
+            np.savetxt(paths.winger_results + 'w_dv_dv_matrix.csv', w_dv_dv_matrix, delimiter=',', fmt="%s")
 
         # These are the variables that are linearly correlated with the output variable for defensemen:
-        defensemen_testing_features = ['A', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', ]
-        d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
-                                                  defensemen_testing_features, \
-                                                  "Defensemen Data", \
-                                                  "defensemen", \
-                                                  paths.defensemen_results + paths.dv_iv_scatter)
-        d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
-        np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
+        if defensemen_anal:
+            defensemen_testing_features = ['A', 'A2', 'PTS', 'Shifts', 'TOI', 'TOI/GP', ]
+            d_dv_dv_matrix = dv_dv_correlation_test(defensemen_data, columns, \
+                                                    defensemen_testing_features, \
+                                                    "Defensemen Data", \
+                                                    "defensemen", \
+                                                    paths.defensemen_results + paths.dv_iv_scatter)
+            d_dv_dv_matrix = np.asarray(d_dv_dv_matrix)
+            np.savetxt(paths.defensemen_results + 'd_dv_dv_matrix.csv', d_dv_dv_matrix, delimiter=',', fmt="%s")
 
     if multi_collinearity_elimination_confirmation:
         # These are the final variables that will be used for the MLR analysis (the redundant variables were removed):
-        centermen_testing_features = ['Ht', '+/-', 'G.Snap', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
-        c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
-                                                  centermen_testing_features, \
-                                                  "Centermen Data", \
-                                                  "centermen", \
-                                                  paths.centermen_results + paths.dv_iv_scatter)
-        c_multi_col_confirm = np.asarray(c_multi_col_confirm)
-        np.savetxt(paths.centermen_results + 'c_multi_col_confirm.csv', c_multi_col_confirm, delimiter=',', fmt="%s")
+        if centermen_anal:
+            centermen_testing_features = ['Ht', '+/-', 'G.Snap', 'G.Wrap', 'Post', 'S.Dflct', 'S.Slap']
+            c_multi_col_confirm = dv_dv_correlation_test(centermen_data, columns, \
+                                                         centermen_testing_features, \
+                                                         "Centermen Data", \
+                                                         "centermen", \
+                                                         paths.centermen_results + paths.dv_iv_scatter)
+            c_multi_col_confirm = np.asarray(c_multi_col_confirm)
+            np.savetxt(paths.centermen_results + 'c_multi_col_confirm.csv', c_multi_col_confirm, delimiter=',',
+                       fmt="%s")
 
         # winger_testing_features = ['G', 'A1', 'A2', 'TOI/GP', 'iFOW', 'Wide']
         # w_multi_col_confirm = dv_dv_correlation_test(defensemen_data, columns, \
